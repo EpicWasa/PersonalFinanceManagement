@@ -16,6 +16,7 @@ import javafx.util.converter.IntegerStringConverter;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
 
 public class Controller implements Initializable {
 
@@ -32,9 +33,6 @@ public class Controller implements Initializable {
     @FXML private TableColumn<Record, String> commentSearchColumn;
 
     @FXML private Button searchByWord;
-    @FXML private Button sortCommentButton;
-    @FXML private Button sortVisitorsButton;
-
 
     @FXML private TextField searchTextField;
 
@@ -46,9 +44,6 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        sortCommentButton.setOnAction(event -> commentSort());
-        sortVisitorsButton.setOnAction(event -> visitorsSort());
-
 
         exhibitionListInit(Main.sourceFileName);
         tableInit();
@@ -56,28 +51,11 @@ public class Controller implements Initializable {
 
     }
 
-    private void commentSort() {
-        if(table!=null){
-            records.commentSort();
-            recordObservableList = FXCollections.observableArrayList( records.getRecords());
-            tableInit();
-        }
-    }
-
-    private void visitorsSort() {
-        if(table!=null){
-            records.countSort();
-            recordObservableList = FXCollections.observableArrayList( records.getRecords());
-            tableInit();
-        }
-    }
-
 
 
     private void exhibitionListInit(String sourceFilename){
         records = new RecordsList();
         records.read(sourceFilename);
-        records.addRecord(new Record("21.1.312", 213, "dsf"));
         recordObservableList = FXCollections.observableArrayList( records.getRecords());
     }
 
@@ -138,22 +116,35 @@ public class Controller implements Initializable {
         allRecords = table.getItems();
         selectedRecords = table.getSelectionModel().getSelectedItems();
 
+
+
         selectedRecords.forEach(allRecords::remove);
+        records.getRecords().clear();
+        for (Object d : allRecords.toArray()){
+            records.addRecord((Record) d);
+        }
     }
 
     public void addButtonPressed(ActionEvent actionEvent) {
         try{
             if(!commentAddText.getText().isEmpty() && !visitorsAddText.getText().isEmpty() && !dateAddText.getText().isEmpty()){
-                recordObservableList.add(new Record(dateAddText.getText(), Integer.parseInt( visitorsAddText.getText()), commentAddText.getText()));
-                records.addRecord(new Record(dateAddText.getText(), Integer.parseInt(visitorsAddText.getText()), commentAddText.getText()));
+                String date = dateAddText.getText();
+                StringTokenizer tokenizer = new StringTokenizer(date);
+                int day = Integer.parseInt(tokenizer.nextToken("."));
+                int month = Integer.parseInt(tokenizer.nextToken("."));
+                int year = Integer.parseInt(tokenizer.nextToken("."));
+                if(!(day < 0 || day > 31 || month < 1 || month > 12 || year < 1900)){
+                    recordObservableList.add(new Record(date, Integer.parseInt( visitorsAddText.getText()), commentAddText.getText()));
+                    records.addRecord(new Record(dateAddText.getText(), Integer.parseInt(visitorsAddText.getText()), commentAddText.getText()));
+                    dateAddText.clear();
+                    commentAddText.clear();
+                    visitorsAddText.clear();
+                }
+                else{
+                    dateAddText.clear();
+                }
             }
         }catch (Exception e){e.printStackTrace();}
-        finally {
-            dateAddText.clear();
-            commentAddText.clear();
-            visitorsAddText.clear();
-        }
-
     }
 
     public void infoClecked(ActionEvent actionEvent) {

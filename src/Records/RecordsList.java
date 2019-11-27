@@ -37,7 +37,7 @@ public class RecordsList {
     public List<Record> daysWithDate(String str){
         List<Record> res = new ArrayList<Record>();
         for(Record record : this.records){
-            if(record.getDate().equals(str)){
+            if(record.getDate().contains(str)){
                 res.add(record);
             }
         }

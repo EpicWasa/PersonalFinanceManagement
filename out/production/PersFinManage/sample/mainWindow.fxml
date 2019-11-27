@@ -29,18 +29,16 @@
             </menus>
         </MenuBar>
 
-        <TableView id="table" fx:id="table" editable="true" layoutX="193.0" layoutY="52.0" prefHeight="459.0" prefWidth="482.0">
+        <TableView id="table" fx:id="table" editable="true" layoutX="193.0" layoutY="52.0" prefHeight="459.0" prefWidth="665.0">
             <columns>
-                <TableColumn fx:id="dateColumn" prefWidth="120.0" resizable="false" sortable="false" editable="true" text="Date" />
-                <TableColumn fx:id="sumColumn" prefWidth="97.0" resizable="false" sortable="false" text="Sum" />
-                <TableColumn fx:id="commentColumn" prefWidth="260.0" resizable="false" sortable="false" text="Comment" />
+                <TableColumn fx:id="dateColumn" editable="true" prefWidth="173.0" resizable="false" text="Date" />
+                <TableColumn fx:id="sumColumn" prefWidth="220.0" resizable="false" text="Sum" />
+                <TableColumn fx:id="commentColumn" prefWidth="267.0" resizable="false" text="Comment" />
             </columns>
         </TableView>
 
         <TextField fx:id="searchTextField" layoutX="19.0" layoutY="102.0" prefHeight="37.0" prefWidth="157.0" />
-        <Button fx:id="sortVisitorsButton" layoutX="691.0" layoutY="75.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="157.0" text="Sort by sum" />
-        <Button fx:id="sortCommentButton" layoutX="687.0" layoutY="123.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="166.0" text="Sort by Comment" />
-        <Button fx:id="searchByDate" layoutX="19.0" layoutY="58.0" mnemonicParsing="false" onAction="#search" prefHeight="33.0" prefWidth="157.0" text="Search by word" />
+        <Button fx:id="searchByDate" layoutX="19.0" layoutY="58.0" mnemonicParsing="false" onAction="#search" prefHeight="33.0" prefWidth="157.0" text="Search by date" />
 
         <TableView fx:id="searchTable" layoutX="19.0" layoutY="145.0" prefHeight="442.0" prefWidth="157.0">
             <columns>

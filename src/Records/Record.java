@@ -2,6 +2,7 @@ package Records;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
+import java.util.StringTokenizer;
 
 @XmlType(name = "day", propOrder = {"date", "sum", "comment"})
 public class Record implements Comparable<Record>{
@@ -52,7 +53,13 @@ public class Record implements Comparable<Record>{
     }
 
     public void setDate(String date) {
-        this.date = date;
+        StringTokenizer tokenizer = new StringTokenizer(date);
+        int day = Integer.parseInt(tokenizer.nextToken("."));
+        int month = Integer.parseInt(tokenizer.nextToken("."));
+        int year = Integer.parseInt(tokenizer.nextToken("."));
+        if (!(day < 0 || day > 31 || month < 1 || month > 12 || year < 1900)) {
+            this.date = date;
+        }
     }
 
     private String date;
